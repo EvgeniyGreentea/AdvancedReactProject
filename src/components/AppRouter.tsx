@@ -1,10 +1,12 @@
 import React from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
+import { useTypedSelector } from '../hooks/useTupedSelector';
 import { privateRoutes, publicRoutes, RouteNames } from '../route';
 const AppRouter = () => {
-    const auth = true;
+    const { isAuth } = useTypedSelector(state => state.auth)
+
     return (
-        auth
+        isAuth
             ?
             <Routes>
                 {privateRoutes.map(route =>
@@ -26,7 +28,7 @@ const AppRouter = () => {
                         element={<route.element />}
                         key={route.path}
                     />)}
-                    <Route
+                <Route
                     path='*'
                     element={<Navigate to={RouteNames.LOGIN} />}
                 />
