@@ -12,10 +12,11 @@ export const AuthActionCreators = {
     login: (username: string, password: string) => async (dispatch: AppDispatch) => {
         try {
             dispatch(AuthActionCreators.setIsLoading(true));
-            setTimeout(async() => {
+            setTimeout(async () => {
                 const response = await axios.get<IUser[]>('./users.json');
                 const mockUser = response.data.find(user => user.username === username && user.password === password);
                 if (mockUser) {
+                    console.log(mockUser)
                     localStorage.setItem('auth', 'true');
                     localStorage.setItem('username', mockUser.username);
                     dispatch(AuthActionCreators.setIsAuth(true));
@@ -30,10 +31,10 @@ export const AuthActionCreators = {
         }
     },
     logout: () => async (dispatch: AppDispatch) => {
-        try {
+        localStorage.removeItem('auth');
+        localStorage.removeItem('username')
+        dispatch(AuthActionCreators.setUser({} as IUser))
+        dispatch(AuthActionCreators.setIsAuth(false));
 
-        } catch (e) {
-
-        }
     }
 }
