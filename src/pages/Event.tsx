@@ -1,10 +1,37 @@
-import React, { FC } from 'react'
+import { Button, Layout, Modal, Row } from 'antd'
+import React, { FC, useEffect, useState } from 'react'
+import EventCalendar from '../components/EventCalendar'
+import EventForm from '../components/EventForm'
+import { useActions } from '../hooks/useActions'
+import { useTypedSelector } from '../hooks/useTupedSelector'
 
-const Event:FC = () => {
+const Event: FC = () => {
+   
+    const {fetchGuests} = useActions()
+    const [modalVisible, setModalVisible] = useState(false)
+    const {guests} = useTypedSelector(state=>state.event)
+    useEffect(()=>{
+        fetchGuests()
+    },[])
+
     return (
-        <div>
-            Event
-        </div>
+        <Layout>
+            <EventCalendar events={[]} />
+            <Row justify='center'>
+                <Button
+                    onClick={() => setModalVisible(true)}
+                >Добавить событие
+                </Button>
+            </Row>
+            <Modal
+                title='Добавить событие'
+                visible={modalVisible}
+                footer={null}
+                onCancel={()=>setModalVisible(false)}
+            >
+                <EventForm guests={guests}/>
+            </Modal>
+        </Layout>
     )
 }
 
