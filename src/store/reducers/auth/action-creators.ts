@@ -19,8 +19,8 @@ export const AuthActionCreators = {
                     console.log(mockUser)
                     localStorage.setItem('auth', 'true');
                     localStorage.setItem('username', mockUser.username);
-                    dispatch(AuthActionCreators.setIsAuth(true));
                     dispatch(AuthActionCreators.setUser(mockUser));
+                    dispatch(AuthActionCreators.setIsAuth(true));
                 } else {
                     dispatch(AuthActionCreators.setError('Некорректный логин или пороль'))
                 }
